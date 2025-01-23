@@ -1,6 +1,7 @@
 
 using JogoBasqueteTarefa.Data;
 using JogoBasqueteTarefa.Repositories;
+using JogoBasqueteTarefa.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace JogoBasqueteTarefa
@@ -15,6 +16,8 @@ namespace JogoBasqueteTarefa
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddControllers();
+            builder.Services.AddTransient<JogoRepository>();
+            builder.Services.AddTransient<JogoService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             var app = builder.Build();
