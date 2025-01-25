@@ -15,6 +15,13 @@ namespace JogoBasqueteTarefa
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("String de conex?o n?o encontrada");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
             builder.Services.AddControllers();
             builder.Services.AddTransient<JogoRepository>();
             builder.Services.AddTransient<JogoService>();
@@ -29,7 +36,7 @@ namespace JogoBasqueteTarefa
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowAngular");
             app.UseAuthorization();
 
 

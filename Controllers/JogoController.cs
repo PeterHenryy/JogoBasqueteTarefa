@@ -25,9 +25,9 @@ namespace JogoBasqueteTarefa.Controllers
         [HttpPost]
         public ActionResult Criar(Jogo jogo)
         {
-            if (jogo.Data < DateTime.Now)
+            if (jogo.Data > DateTime.Now)
             {
-                return BadRequest("A data do jogo não pode ser antes da data atual");
+                return BadRequest(new { message = "A data do jogo não pode ser depois da data atual." });
             }
 
             try
