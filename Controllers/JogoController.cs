@@ -15,11 +15,15 @@ namespace JogoBasqueteTarefa.Controllers
             _jogoService = jogoService;
         }
 
-        [HttpGet("jogos")]
-        public IActionResult ObterJogos()
+        [HttpGet("resultados-jogos")]
+        public IActionResult ObterResultadosJogos()
         {
-            IEnumerable<Jogo> jogos = _jogoService.ObterJogos();
-            return Ok(jogos);
+            if(_jogoService.ObterQtdJogosDisputados() == 0)
+            {
+                return BadRequest(new { message = "Não há nenhum jogo disponível" });
+            }
+            Resultados resultadosDosJogos = _jogoService.ObterResultadosDosJogos();
+            return Ok(resultadosDosJogos);
         }
 
         [HttpPost]

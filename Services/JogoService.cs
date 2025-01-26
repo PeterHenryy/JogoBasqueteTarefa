@@ -1,9 +1,10 @@
 ﻿using JogoBasqueteTarefa.Models;
 using JogoBasqueteTarefa.Repositories;
+using JogoBasqueteTarefa.Services.Interfaces;
 
 namespace JogoBasqueteTarefa.Services
 {
-    public class JogoService
+    public class JogoService : IJogoService
     {
         private readonly JogoRepository _jogoRepository;
 
@@ -18,16 +19,74 @@ namespace JogoBasqueteTarefa.Services
             return jogoCriado;
         }
 
-        public IEnumerable<Jogo> ObterJogos()
-        {
-            List<Jogo> jogos = _jogoRepository.ObterJogos().ToList();
-            return jogos;
-        }
 
         public Jogo ObterJogoPorID(int jogoID)
         {
             Jogo jogo = _jogoRepository.ObterJogoPorID(jogoID);
             return jogo;
+        }
+
+        public DateTime ObterDataPrimeiroJogo()
+        {
+            DateTime data = _jogoRepository.ObterDataPrimeiroJogo();
+            return data;
+        }
+
+        public DateTime ObterDataUltimoJogo()
+        {
+            DateTime data = _jogoRepository.ObterDataUltimoJogo();
+            return data;
+        }
+
+        public int ObterQtdJogosDisputados()
+        {
+            int qtdJogos = _jogoRepository.ObterQtdJogosDisputados();
+            return qtdJogos;
+        }
+
+        public int ObterTotalPontosTemporada()
+        {
+            int totalPontos = _jogoRepository.ObterTotalPontosTemporada();
+            return totalPontos;
+        }
+
+        public int ObterMediaPontosPorJogo()
+        {
+            int mediaPontos = _jogoRepository.ObterMediaPontosPorJogo();
+            return mediaPontos;
+        }
+
+        public int ObterMaiorPontuacaoEmJogo()
+        {
+            int maiorPontuacao = _jogoRepository.ObterMaiorPontuacaoEmJogo();
+            return maiorPontuacao;
+        }
+
+        public int ObterMenorPontuacaoEmJogo()
+        {
+            int menorPontuacao = _jogoRepository.ObterMenorPontuacaoEmJogo();
+            return menorPontuacao;
+        }
+
+        public int ObterQtdRecordesBatidos()
+        {
+            int qtdRecordesBatidos = _jogoRepository.ObterQtdRecordesBatidos();
+            return qtdRecordesBatidos;
+        }
+
+        public Resultados ObterResultadosDosJogos()
+        {
+            return new Resultados
+            {
+                DataPrimeiroJogo = ObterDataPrimeiroJogo(),
+                DataUltimoJogo = ObterDataUltimoJogo(),
+                JogosDisputados = ObterQtdJogosDisputados(),
+                TotalPontosTemporada = ObterTotalPontosTemporada(),
+                MediaPontosPorJogo = ObterMediaPontosPorJogo(),
+                MaiorPontuacaoEmJogo = ObterMaiorPontuacaoEmJogo(),
+                MenorPontuacaoEmJogo = ObterMenorPontuacaoEmJogo(),
+                QtdVezesBateuRecorde = ObterQtdRecordesBatidos()
+            };
         }
     }
 }
