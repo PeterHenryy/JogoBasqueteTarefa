@@ -15,5 +15,6 @@ namespace JogoBasqueteTarefa.Services.Interfaces
         Task<int> ObterMaiorPontuacaoEmJogo();
         Task<int> ObterMenorPontuacaoEmJogo();
         Task<int> ObterQtdRecordesBatidos();
+        Task<Resultados> ObterResultadosDosJogos();
     }
 }

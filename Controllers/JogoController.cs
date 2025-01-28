@@ -1,5 +1,6 @@
 ﻿using JogoBasqueteTarefa.Models;
 using JogoBasqueteTarefa.Services;
+using JogoBasqueteTarefa.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JogoBasqueteTarefa.Controllers
@@ -8,9 +9,9 @@ namespace JogoBasqueteTarefa.Controllers
     [Route("jogo")]
     public class JogoController : ControllerBase
     {
-        private readonly JogoService _jogoService;
+        private readonly IJogoService _jogoService;
 
-        public JogoController(JogoService jogoService)
+        public JogoController(IJogoService jogoService)
         {
             _jogoService = jogoService;
         }
