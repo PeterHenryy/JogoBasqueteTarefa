@@ -16,18 +16,18 @@ namespace JogoBasqueteTarefa.Controllers
         }
 
         [HttpGet("resultados-jogos")]
-        public IActionResult ObterResultadosJogos()
+        public async Task<IActionResult> ObterResultadosJogos()
         {
-            if(_jogoService.ObterQtdJogosDisputados() == 0)
+            if(await _jogoService.ObterQtdJogosDisputados() == 0)
             {
                 return BadRequest(new { message = "Não há nenhum jogo disponível" });
             }
-            Resultados resultadosDosJogos = _jogoService.ObterResultadosDosJogos();
+            Resultados resultadosDosJogos = await _jogoService.ObterResultadosDosJogos();
             return Ok(resultadosDosJogos);
         }
 
         [HttpPost]
-        public ActionResult Criar(Jogo jogo)
+        public async Task<ActionResult> Criar(Jogo jogo)
         {
             if (jogo.Data > DateTime.Now)
             {
@@ -36,7 +36,7 @@ namespace JogoBasqueteTarefa.Controllers
 
             try
             {
-                bool jogoCriado = _jogoService.Criar(jogo);
+                bool jogoCriado = await _jogoService.Criar(jogo);
                 return CreatedAtAction(nameof(ObterJogoPorID), new { id = jogo.ID }, jogo);
             }
             catch (Exception ex)
@@ -46,9 +46,9 @@ namespace JogoBasqueteTarefa.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Jogo> ObterJogoPorID(int id)
+        public async Task<ActionResult<Jogo>> ObterJogoPorID(int id)
         {
-            var jogo = _jogoService.ObterJogoPorID(id);
+            var jogo = await _jogoService.ObterJogoPorID(id);
             if (jogo == null)
             {
                 return NotFound();

@@ -4,17 +4,17 @@ namespace JogoBasqueteTarefa.Repositories.Interfaces
 {
     public interface IJogoRepository
     {
-        bool Criar(Jogo jogo);
-        Jogo ObterJogoPorID(int jogoID);
+        Task<bool> Criar(Jogo jogo);
+        Task<Jogo> ObterJogoPorID(int jogoID);
 
-        DateTime ObterDataPrimeiroJogo();
-        DateTime ObterDataUltimoJogo();
-        int ObterQtdJogosDisputados();
-        int ObterTotalPontosTemporada();
-        int ObterMediaPontosPorJogo();
-        int ObterMaiorPontuacaoEmJogo();
-        int ObterMenorPontuacaoEmJogo();
-        int ObterQtdRecordesBatidos();
+        Task<DateTime> ObterDataPrimeiroJogo();
+        Task<DateTime> ObterDataUltimoJogo();
+        Task<int> ObterQtdJogosDisputados();
+        Task<int> ObterTotalPontosTemporada();
+        Task<int> ObterMediaPontosPorJogo();
+        Task<int> ObterMaiorPontuacaoEmJogo();
+        Task<int> ObterMenorPontuacaoEmJogo();
+        Task<int> ObterQtdRecordesBatidos();
 
     }
 }

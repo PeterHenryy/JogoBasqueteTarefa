@@ -1,6 +1,7 @@
 ﻿using JogoBasqueteTarefa.Data;
 using JogoBasqueteTarefa.Models;
 using JogoBasqueteTarefa.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace JogoBasqueteTarefa.Repositories
 {
@@ -12,12 +13,12 @@ namespace JogoBasqueteTarefa.Repositories
         {
             _context = context;
         }
-        public bool Criar(Jogo jogo)
+        public async Task<bool> Criar(Jogo jogo)
         {
             try
             {
-                _context.Jogos.Add(jogo);
-                _context.SaveChanges();
+                await _context.Jogos.AddAsync(jogo);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
@@ -27,57 +28,58 @@ namespace JogoBasqueteTarefa.Repositories
         }
 
 
-        public Jogo ObterJogoPorID(int jogoID)
+        public async Task<Jogo> ObterJogoPorID(int jogoID)
         {
-            Jogo jogo = _context.Jogos.Single(x => x.ID == jogoID);
+            Jogo jogo = await _context.Jogos.SingleOrDefaultAsync(x => x.ID == jogoID);
             return jogo;
         }
 
-        public DateTime ObterDataPrimeiroJogo()
+        public async Task<DateTime> ObterDataPrimeiroJogo()
         {
-            DateTime data = _context.Jogos.OrderBy(x => x.Data).FirstOrDefault().Data;
-            return data;
+            Jogo primeiroJogo = await _context.Jogos.OrderBy(x => x.Data).FirstOrDefaultAsync();
+            return primeiroJogo.Data;
         }
 
-        public DateTime ObterDataUltimoJogo()
+        public async Task<DateTime> ObterDataUltimoJogo()
         {
-            DateTime data = _context.Jogos.OrderByDescending(x => x.Data).FirstOrDefault().Data;
-            return data;
+            Jogo ultimoJogo = await _context.Jogos.OrderByDescending(x => x.Data).FirstOrDefaultAsync();
+            return ultimoJogo.Data;
         }
 
-        public int ObterQtdJogosDisputados()
+        public async Task<int> ObterQtdJogosDisputados()
         {
-            int jogosDisputados = _context.Jogos.Count();
+            int jogosDisputados = await _context.Jogos.CountAsync();
             return jogosDisputados;
         }
 
-        public int ObterTotalPontosTemporada()
+        public async Task<int> ObterTotalPontosTemporada()
         {
-            int totalPontos = _context.Jogos.Sum(x => x.Pontos);
+            int totalPontos = await _context.Jogos.SumAsync(x => x.Pontos);
             return totalPontos;
         }
 
-        public int ObterMediaPontosPorJogo()
+        public async Task<int> ObterMediaPontosPorJogo()
         {
-            int media = (int)_context.Jogos.Average(x => x.Pontos);
+            int media = (int) await _context.Jogos.AverageAsync(x => x.Pontos);
             return media;
         }
 
-        public int ObterMaiorPontuacaoEmJogo()
+        public async Task<int> ObterMaiorPontuacaoEmJogo()
         {
-            int maiorPontuacao = _context.Jogos.Max(x => x.Pontos);
+            int maiorPontuacao = await _context.Jogos.MaxAsync(x => x.Pontos);
             return maiorPontuacao;
         }
 
-        public int ObterMenorPontuacaoEmJogo()
+        public async Task<int> ObterMenorPontuacaoEmJogo()
         {
-            int menorPontuacao = _context.Jogos.Min(x => x.Pontos);
+            int menorPontuacao = await _context.Jogos.MinAsync(x => x.Pontos);
             return menorPontuacao;
         }
 
-        public int ObterQtdRecordesBatidos()
+        public async Task<int> ObterQtdRecordesBatidos()
         {
-            int recordeAtual = _context.Jogos.ElementAt(0).Pontos;
+            Jogo primeiroJogo = await _context.Jogos.ElementAtAsync(0);
+            int recordeAtual = primeiroJogo.Pontos;
             int recordesBatidos = 0;
             foreach(Jogo jogo in _context.Jogos)
             {

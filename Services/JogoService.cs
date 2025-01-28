@@ -13,79 +13,78 @@ namespace JogoBasqueteTarefa.Services
             _jogoRepository = jogoRepository;
         }
 
-        public bool Criar(Jogo jogo)
+        public async Task<bool> Criar(Jogo jogo)
         {
-            bool jogoCriado = _jogoRepository.Criar(jogo);
+            bool jogoCriado = await _jogoRepository.Criar(jogo);
             return jogoCriado;
         }
 
-
-        public Jogo ObterJogoPorID(int jogoID)
+        public async Task<Jogo> ObterJogoPorID(int jogoID)
         {
-            Jogo jogo = _jogoRepository.ObterJogoPorID(jogoID);
+            Jogo jogo = await _jogoRepository.ObterJogoPorID(jogoID);
             return jogo;
         }
 
-        public DateTime ObterDataPrimeiroJogo()
+        public async Task<DateTime> ObterDataPrimeiroJogo()
         {
-            DateTime data = _jogoRepository.ObterDataPrimeiroJogo();
+            DateTime data = await _jogoRepository.ObterDataPrimeiroJogo();
             return data;
         }
 
-        public DateTime ObterDataUltimoJogo()
+        public async Task<DateTime> ObterDataUltimoJogo()
         {
-            DateTime data = _jogoRepository.ObterDataUltimoJogo();
+            DateTime data = await _jogoRepository.ObterDataUltimoJogo();
             return data;
         }
 
-        public int ObterQtdJogosDisputados()
+        public async Task<int> ObterQtdJogosDisputados()
         {
-            int qtdJogos = _jogoRepository.ObterQtdJogosDisputados();
+            int qtdJogos = await _jogoRepository.ObterQtdJogosDisputados();
             return qtdJogos;
         }
 
-        public int ObterTotalPontosTemporada()
+        public async Task<int> ObterTotalPontosTemporada()
         {
-            int totalPontos = _jogoRepository.ObterTotalPontosTemporada();
+            int totalPontos = await _jogoRepository.ObterTotalPontosTemporada();
             return totalPontos;
         }
 
-        public int ObterMediaPontosPorJogo()
+        public async Task<int> ObterMediaPontosPorJogo()
         {
-            int mediaPontos = _jogoRepository.ObterMediaPontosPorJogo();
+            int mediaPontos = await _jogoRepository.ObterMediaPontosPorJogo();
             return mediaPontos;
         }
 
-        public int ObterMaiorPontuacaoEmJogo()
+        public async Task<int> ObterMaiorPontuacaoEmJogo()
         {
-            int maiorPontuacao = _jogoRepository.ObterMaiorPontuacaoEmJogo();
+            int maiorPontuacao = await _jogoRepository.ObterMaiorPontuacaoEmJogo();
             return maiorPontuacao;
         }
 
-        public int ObterMenorPontuacaoEmJogo()
+        public async Task<int> ObterMenorPontuacaoEmJogo()
         {
-            int menorPontuacao = _jogoRepository.ObterMenorPontuacaoEmJogo();
+            int menorPontuacao = await _jogoRepository.ObterMenorPontuacaoEmJogo();
             return menorPontuacao;
         }
 
-        public int ObterQtdRecordesBatidos()
+        public async Task<int> ObterQtdRecordesBatidos()
         {
-            int qtdRecordesBatidos = _jogoRepository.ObterQtdRecordesBatidos();
+            int qtdRecordesBatidos = await _jogoRepository.ObterQtdRecordesBatidos();
             return qtdRecordesBatidos;
         }
 
-        public Resultados ObterResultadosDosJogos()
+        public async Task<Resultados> ObterResultadosDosJogos()
         {
             return new Resultados
             {
-                DataPrimeiroJogo = ObterDataPrimeiroJogo(),
-                DataUltimoJogo = ObterDataUltimoJogo(),
-                JogosDisputados = ObterQtdJogosDisputados(),
-                TotalPontosTemporada = ObterTotalPontosTemporada(),
-                MediaPontosPorJogo = ObterMediaPontosPorJogo(),
-                MaiorPontuacaoEmJogo = ObterMaiorPontuacaoEmJogo(),
-                MenorPontuacaoEmJogo = ObterMenorPontuacaoEmJogo(),
-                QtdVezesBateuRecorde = ObterQtdRecordesBatidos()
+                DataPrimeiroJogo = await ObterDataPrimeiroJogo(),
+                DataUltimoJogo = await ObterDataUltimoJogo(),
+                JogosDisputados = await ObterQtdJogosDisputados(),
+                TotalPontosTemporada = await ObterTotalPontosTemporada(),
+                MediaPontosPorJogo = await ObterMediaPontosPorJogo(),
+                MaiorPontuacaoEmJogo = await ObterMaiorPontuacaoEmJogo(),
+                MenorPontuacaoEmJogo = await ObterMenorPontuacaoEmJogo(),
+                QtdVezesBateuRecorde = await ObterQtdRecordesBatidos()
             };
         }
     }
