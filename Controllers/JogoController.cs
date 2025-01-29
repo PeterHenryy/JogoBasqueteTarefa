@@ -1,6 +1,6 @@
 ﻿using JogoBasqueteTarefa.Models;
-using JogoBasqueteTarefa.Services;
 using JogoBasqueteTarefa.Services.Interfaces;
+using JogoBasqueteTarefa.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JogoBasqueteTarefa.Controllers
@@ -30,9 +30,10 @@ namespace JogoBasqueteTarefa.Controllers
         [HttpPost]
         public async Task<ActionResult> Criar(Jogo jogo)
         {
-            if (jogo.Data > DateTime.Now)
+            bool jogoValido = JogoValidator.VerificarValidadeJogo(jogo);
+            if (!jogoValido)
             {
-                return BadRequest(new { message = "A data do jogo não pode ser depois da data atual." });
+                return BadRequest(new { message = "Algo deu errado ao tentar criar jogo" });
             }
 
             try
