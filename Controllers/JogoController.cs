@@ -30,6 +30,7 @@ namespace JogoBasqueteTarefa.Controllers
         [HttpPost]
         public async Task<ActionResult> Criar(Jogo jogo)
         {
+
             bool jogoValido = JogoValidator.VerificarValidadeJogo(jogo);
             if (!jogoValido)
             {

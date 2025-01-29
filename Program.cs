@@ -26,6 +26,7 @@ namespace JogoBasqueteTarefa
                                       .AllowAnyMethod()
                                       .AllowAnyHeader());
             });
+
             builder.Services.AddControllers();
             builder.Services.AddTransient<JogoRepository>();
             builder.Services.AddTransient<IJogoService, JogoService>();

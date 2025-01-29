@@ -38,7 +38,7 @@ namespace JogoBasqueteTarefa.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Jogos");
+                    b.ToTable("Jogos", (string)null);
                 });
 #pragma warning restore 612, 618
         }

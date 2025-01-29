@@ -70,6 +70,22 @@ namespace JogoBasqueteTarefa.Test.Controller
             resultado.Should().NotBeNull();
             resultado.Value.Should().BeEquivalentTo(new { message = "Algo deu errado ao tentar criar jogo" });
         }
+        [Fact]
+        public async Task JogoController_Criar_PontosMenorQueZero_ReturnBadRequest()
+        {
+            //Arrange
+            Jogo jogo = JogoFaker.CriarJogoFake();
+            jogo.Pontos = -1;
+
+            // Act
+            var resultado = (BadRequestObjectResult)await _jogoController.Criar(jogo);
+
+            // Assert
+            resultado.StatusCode.Should().Be(400);
+            resultado.Should().NotBeNull();
+            resultado.Value.Should().BeEquivalentTo(new { message = "Algo deu errado ao tentar criar jogo" });
+
+        }
 
         [Fact]
         public async Task JogoController_ObterResultadosJogos_JogosDisputadosMaiorQueZero_ReturnsOk()
@@ -95,8 +111,6 @@ namespace JogoBasqueteTarefa.Test.Controller
             // Arrange
             A.CallTo(() => _jogoService.ObterQtdJogosDisputados()).Returns(0);
 
-
-
             // Act
             var resultado = await _jogoController.ObterResultadosJogos();
 
@@ -105,21 +119,5 @@ namespace JogoBasqueteTarefa.Test.Controller
                 .Which.Value.Should().BeEquivalentTo(new { message = "Não há nenhum jogo disponível" });
         }
 
-        [Fact]
-        public async Task JogoController_Criar_PontosMenorQueZero_ReturnBadRequest()
-        {
-            //Arrange
-            Jogo jogo = JogoFaker.CriarJogoFake();
-            jogo.Pontos = -1;
-
-            // Act
-            var resultado = (BadRequestObjectResult)await _jogoController.Criar(jogo);
-
-            // Assert
-            resultado.StatusCode.Should().Be(400);
-            resultado.Should().NotBeNull();
-            resultado.Value.Should().BeEquivalentTo(new { message = "Algo deu errado ao tentar criar jogo" });
-
-        }
     }
 }

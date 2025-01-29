@@ -1,6 +1,7 @@
 ﻿using JogoBasqueteTarefa.Data;
 using JogoBasqueteTarefa.Models;
 using JogoBasqueteTarefa.Repositories.Interfaces;
+using JogoBasqueteTarefa.Validators;
 using Microsoft.EntityFrameworkCore;
 
 namespace JogoBasqueteTarefa.Repositories
@@ -15,16 +16,21 @@ namespace JogoBasqueteTarefa.Repositories
         }
         public async Task<bool> Criar(Jogo jogo)
         {
-            try
+            bool jogoValido = JogoValidator.VerificarValidadeJogo(jogo);
+            if (jogoValido)
             {
-                await _context.Jogos.AddAsync(jogo);
-                await _context.SaveChangesAsync();
-                return true;
+                try
+                {
+                    await _context.Jogos.AddAsync(jogo);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            return false;
         }
 
 
@@ -78,7 +84,8 @@ namespace JogoBasqueteTarefa.Repositories
 
         public async Task<int> ObterQtdRecordesBatidos()
         {
-            Jogo primeiroJogo = await _context.Jogos.ElementAtAsync(0);
+            List<Jogo> listaJogos = await _context.Jogos.ToListAsync();
+            Jogo primeiroJogo = listaJogos[0];
             int recordeAtual = primeiroJogo.Pontos;
             int recordesBatidos = 0;
             foreach(Jogo jogo in _context.Jogos)
