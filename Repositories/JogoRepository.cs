@@ -16,8 +16,9 @@ namespace JogoBasqueteTarefa.Repositories
         }
         public async Task<bool> Criar(Jogo jogo)
         {
-            bool jogoValido = JogoValidator.VerificarValidadeJogo(jogo);
-            if (jogoValido)
+            //Guardando possível erro em variável para avisar o usuário front-end qual é o erro
+            string erroAoCriarJogo = JogoValidator.VerificarValidadeJogo(jogo);
+            if (String.IsNullOrEmpty(erroAoCriarJogo))
             {
                 try
                 {
@@ -84,10 +85,15 @@ namespace JogoBasqueteTarefa.Repositories
 
         public async Task<int> ObterQtdRecordesBatidos()
         {
+            
             List<Jogo> listaJogos = await _context.Jogos.ToListAsync();
             Jogo primeiroJogo = listaJogos[0];
+
+            //estabelecendo recorde atual como sendo o do primeiro jogo registrado
             int recordeAtual = primeiroJogo.Pontos;
             int recordesBatidos = 0;
+
+            //sempre que algum jogo na lista tiver pontos maiores que o recorde, será o novo recorde e recordes batidos aumentará
             foreach(Jogo jogo in _context.Jogos)
             {
                 if (jogo.Pontos > recordeAtual)

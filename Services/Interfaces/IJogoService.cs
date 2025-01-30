@@ -2,6 +2,7 @@
 
 namespace JogoBasqueteTarefa.Services.Interfaces
 {
+    //interface service com os mesmos métodos que a interface repository
     public interface IJogoService
     {
         Task<bool> Criar(Jogo jogo);

@@ -75,6 +75,7 @@ namespace JogoBasqueteTarefa.Services
 
         public async Task<Resultados> ObterResultadosDosJogos()
         {
+            //retornando objeto com todas as propriedades a serem mostradas no front-end
             return new Resultados
             {
                 DataPrimeiroJogo = await ObterDataPrimeiroJogo(),

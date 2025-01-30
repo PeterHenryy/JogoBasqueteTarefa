@@ -19,10 +19,13 @@ namespace JogoBasqueteTarefa.Controllers
         [HttpGet("resultados-jogos")]
         public async Task<IActionResult> ObterResultadosJogos()
         {
+            //se não houver jogos, avisar ao front end
             if(await _jogoService.ObterQtdJogosDisputados() == 0)
             {
                 return BadRequest(new { message = "Não há nenhum jogo disponível" });
             }
+
+            //retornando objeto contendo informações úteis ao front end
             Resultados resultadosDosJogos = await _jogoService.ObterResultadosDosJogos();
             return Ok(resultadosDosJogos);
         }
@@ -30,11 +33,11 @@ namespace JogoBasqueteTarefa.Controllers
         [HttpPost]
         public async Task<ActionResult> Criar(Jogo jogo)
         {
-
-            bool jogoValido = JogoValidator.VerificarValidadeJogo(jogo);
-            if (!jogoValido)
+            //Guardando possível erro em variável para avisar o usuário front-end qual é o erro
+            string erroAoCriarJogo = JogoValidator.VerificarValidadeJogo(jogo);
+            if (!String.IsNullOrEmpty(erroAoCriarJogo))
             {
-                return BadRequest(new { message = "Algo deu errado ao tentar criar jogo" });
+                return BadRequest(new { message = erroAoCriarJogo });
             }
 
             try

@@ -5,17 +5,17 @@ namespace JogoBasqueteTarefa.Validators
 {
     public class JogoValidator
     {
-        public static bool VerificarValidadeJogo(Jogo jogo)
+        public static string VerificarValidadeJogo(Jogo jogo)
         {
             if(jogo.Data > DateTime.Now)
             {
-                return false;
+                return "A data do jogo não pode estar no futuro!";
             }
             if(jogo.Pontos <= 0)
             {
-                return false;
+                return "O jogo deve ter pontuação maior que 0!";
             }
-            return true;
+            return "";
         }
     }
 }

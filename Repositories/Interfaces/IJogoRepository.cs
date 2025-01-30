@@ -2,6 +2,7 @@
 
 namespace JogoBasqueteTarefa.Repositories.Interfaces
 {
+    //Esta interface define todos os metodos da aplicação
     public interface IJogoRepository
     {
         Task<bool> Criar(Jogo jogo);

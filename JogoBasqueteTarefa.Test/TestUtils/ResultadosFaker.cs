@@ -6,6 +6,7 @@ namespace JogoBasqueteTarefa.Test.TestUtils
 {
     public static class ResultadosFaker
     {
+        //método para gerar resultados falsos para testes
         public static Resultados CriarResultadosFake()
         {
             var faker = new Faker<Resultados>()

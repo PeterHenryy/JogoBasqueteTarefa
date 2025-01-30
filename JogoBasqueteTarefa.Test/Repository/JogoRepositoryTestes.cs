@@ -17,7 +17,7 @@ namespace JogoBasqueteTarefa.Test.Repository
 {
     public class JogoRepositoryTestes
     {
-
+        //criando novo banco de dados para testes
         private async Task<ApplicationDbContext> ObterContext(string nomeBanco = "BancoDeDadosTeste")
         {
             var opcoes = new DbContextOptionsBuilder<ApplicationDbContext>().
@@ -27,6 +27,8 @@ namespace JogoBasqueteTarefa.Test.Repository
             return jogosContext;
         }
 
+        //método para limpar banco de dados com o fim de que nenhum dado residual de um teste afete outro teste
+        //método a ser chamado em todos os testes 
         private async Task LimparBanco(ApplicationDbContext context)
         {
             context.Jogos.RemoveRange(context.Jogos);
@@ -47,6 +49,7 @@ namespace JogoBasqueteTarefa.Test.Repository
             bool resultado = await jogoRepository.Criar(jogo);
 
             //Assert
+            
             resultado.Should().BeTrue();
             var createdJogo = context.Jogos.FindAsync(jogo.ID);
             createdJogo.Should().NotBeNull();
@@ -176,7 +179,7 @@ namespace JogoBasqueteTarefa.Test.Repository
         }
 
         [Fact]
-        public async Task JogoRepository_ObterQtdJogosDisputados_ReturnCount()
+        public async Task JogoRepository_ObterQtdJogosDisputados_ReturnContagem()
         {
             // Arrange
             var context = await ObterContext();
@@ -195,7 +198,7 @@ namespace JogoBasqueteTarefa.Test.Repository
         }
 
         [Fact]
-        public async Task ObterMaiorPontuacaoEmJogo_ShouldReturnMaxPoints()
+        public async Task JogoRepository_ObterMaiorPontuacaoEmJogo_ReturnPontuacaoMaxima()
         {
             // Arrange
             var context = await ObterContext();
@@ -215,10 +218,29 @@ namespace JogoBasqueteTarefa.Test.Repository
             resultado.Should().Be(505);
         }
 
+        [Fact]
+        public async Task JogoRepository_ObterMenorPontuacaoEmJogo_ReturnPontuacaoMinima()
+        {
+            // Arrange
+            var context = await ObterContext();
+            await LimparBanco(context);
+            JogoRepository repository = new JogoRepository(context);
 
+            var jogos = JogoFaker.CriarJogosFakes(10); ;
+            jogos.Add(new Jogo { Data = DateTime.Now, Pontos = 1});
+
+            context.Jogos.AddRange(jogos);
+            await context.SaveChangesAsync();
+
+            // Act
+            var resultado = await repository.ObterMenorPontuacaoEmJogo();
+
+            // Assert
+            resultado.Should().Be(1);
+        }
 
         [Fact]
-        public async Task ObterTotalPontosTemporada_ShouldReturnSumOfPoints()
+        public async Task JogoRepository_ObterTotalPontosTemporada_ReturnSomaDePontos()
         {
             // Arrange
             var context = await ObterContext();
@@ -244,7 +266,7 @@ namespace JogoBasqueteTarefa.Test.Repository
         }
 
         [Fact]
-        public async Task ObterMediaPontosPorJogo_ShouldReturnAveragePoints()
+        public async Task JogoRepository_ObterMediaPontosPorJogo_ReturnMediaPontos()
         {
             // Arrange
             var context = await ObterContext();
@@ -270,11 +292,11 @@ namespace JogoBasqueteTarefa.Test.Repository
         }
 
         [Fact]
-        public async Task ObterQtdRecordesBatidos_ShouldReturnCorrectCount()
+        public async Task JogoRepository_ObterQtdRecordesBatidos_ReturnContagemDeRecordes()
         {
             // Arrange
 
-            //Este teste não funciona de jeito nenhum sem esse novo banco
+            //Este teste não funciona de jeito nenhum sem criar um novo banco
             var context = await ObterContext("NovoBanco");
 
             JogoRepository repository = new JogoRepository(context);

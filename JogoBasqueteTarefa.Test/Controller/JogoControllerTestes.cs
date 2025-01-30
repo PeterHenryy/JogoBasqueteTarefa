@@ -21,10 +21,13 @@ namespace JogoBasqueteTarefa.Test.Controller
 
         }
 
+        
         [Fact]
         public async Task JogoController_Criar_ReturnCreated()
         {
             //Arrange
+
+            //Criando jogo falso usando Bogus
             Jogo jogo = JogoFaker.CriarJogoFake();
 
             //Act
@@ -68,7 +71,6 @@ namespace JogoBasqueteTarefa.Test.Controller
             // Assert
             resultado.StatusCode.Should().Be(400);
             resultado.Should().NotBeNull();
-            resultado.Value.Should().BeEquivalentTo(new { message = "Algo deu errado ao tentar criar jogo" });
         }
         [Fact]
         public async Task JogoController_Criar_PontosMenorQueZero_ReturnBadRequest()
@@ -83,7 +85,6 @@ namespace JogoBasqueteTarefa.Test.Controller
             // Assert
             resultado.StatusCode.Should().Be(400);
             resultado.Should().NotBeNull();
-            resultado.Value.Should().BeEquivalentTo(new { message = "Algo deu errado ao tentar criar jogo" });
 
         }
 
